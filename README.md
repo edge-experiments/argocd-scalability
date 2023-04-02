@@ -1,25 +1,8 @@
 ## Argo CD Scalability Experiments
 
-### Create an Argo CD application from command line
-For example:
-```shell
-argocd app create argocd-scalability-00001 \
---config-management-plugin wrap4kyst-flotta \
---repo https://github.com/IBM-edge-platform-research/kyst-configurations.git \
---path examples/kubernetes/nginx/deploy-flotta \
---dest-server https://$sharedkystmaster:6443  \
---dest-namespace argocd-scalability
-```
-
-### Create Argo CD applications using ApplicationSet
-Argo CD's [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/) controller can automate the creation of multiple Argo CD applications, using 'generators' and 'templates'.
-
-There are [various generators](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators/) provided by Argo.
-Looks like the [Git Generator](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git/) fits into our use case.
-Here is an example:
-```shell
-kubectl -n argocd apply -f argocd-scalability/applicationset.yaml
-```
+### Main result
+In the experiments, we were able to sync 10k Argo CD applications in less than 40 minutes.
+Please contact us if interested in more details.
 
 ### Create Argo CD applications using Cluster Loader
 [Cluster Loader](https://github.com/kubernetes/perf-tests/tree/master/clusterloader2) can automate the creation of multiple Argo CD applications, because an Argo CD application is a Kubernetes Custom Resource.
@@ -42,6 +25,16 @@ go run cmd/clusterloader.go \
   --delete-automanaged-namespaces=false
 ```
 
+### Create Argo CD applications using ApplicationSet
+Argo CD's [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/) controller can automate the creation of multiple Argo CD applications, using 'generators' and 'templates'.
+
+There are [various generators](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators/) provided by Argo.
+Looks like the [Git Generator](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git/) fits into our use case.
+Here is an example:
+```shell
+kubectl -n argocd apply -f argocd-scalability/applicationset.yaml
+```
+
 ### Special `wrap4kyst` options for the scalability experiments
 We need the `unique-configspec-name` and `configspec-name-suffix` options for the `wrap4kyst` plugin.
 Using one of these options, even multiple Argo CD applications are created with one single set of files in git, the output ConfigSpecs are still unique.
@@ -50,18 +43,6 @@ With these options, we eliminate the need of creating a separate set of files fo
 
 There is a subtle difference between the `unique-configspec-name` and `configspec-name-suffix` options.
 The `configspec-name-suffix` option not only makes the name of the ConfigSpec _object_ unique, but it also makes the name of the _file_ (holding the object) unique.
-
-### Sync an Argo CD application using local directory
-```shell
-argocd app sync argocd-scalability-00001 --local ./examples/kubernetes/nginx/deploy-flotta/
-```
-
-#### Prerequisites
-- `kustomize` installed if using `--local` option for `argocd app sync`.
-- `wrap4kyst` binary in `PATH` if using the `wrap4kyst` plugin and using the `--local` option for `argocd app sync`. The binary can be made available by compliling the `wrap4kyst` plugin locally, or by copying a complied one from a container:
-```shell
-docker cp 23058b2b81fb:/wrap4kyst .
-```
 
 ### Change application resync period
 There is a trade-off between the number of Applications and frequency of resync.
@@ -90,7 +71,3 @@ ARGOCD_RECONCILIATION_TIMEOUT=3m
 ARGOCD_APPLICATION_CONTROLLER_STATUS_PROCESSORS=60
 ARGOCD_APPLICATION_CONTROLLER_OPERATION_PROCESSORS=30
 ```
-
-### Main result
-In the experiments, we were able to sync 10k Argo CD applications in less than 40 minutes.
-Please contact us if interested in more details.
