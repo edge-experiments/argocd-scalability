@@ -11,7 +11,7 @@ But we don't need to worry about this during the experiments. All we need to do 
 #### Try the `wrap4kyst` Argo CD plugin
 Follow these steps to use the `wrap4kyst` Argo CD plugin.
 
-Install the [kyst CRDs](./crds/) to any destination cluster(s).
+Install the [kyst CRDs](./crds/) to the destination cluster(s).
 
 Run the following command against the cluster hosting Argo CD to make the `wrap4kyst` binary available in argocd-repo-server pod.
 ```shell

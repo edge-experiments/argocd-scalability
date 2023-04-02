@@ -2,6 +2,10 @@
 
 ### Main result
 In the experiments, we were able to sync 10k Argo CD applications in less than 40 minutes.
+
+We have a blog post "[Sync 10,000 Argo CD Applications in One Shot](https://itnext.io/sync-10-000-argo-cd-applications-in-one-shot-bfcda04abe5b)"
+to share the procedure of the experiments and the results.
+
 Please contact us if interested in more details.
 
 ### Create Argo CD applications using Cluster Loader
