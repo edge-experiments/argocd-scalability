@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{.Name}}
+  labels:
+    group: no-plugin
+    batch: "0"
+spec:
+  destination:
+    namespace: argocd-scalability
+    server: https://<destination-server-ip>:6443
+  project: default
+  source:
+    path: kyst-configspec/indexed/{{.Index}}/
+    repoURL: https://github.com/edge-experiments/gitops-source-experimental.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true

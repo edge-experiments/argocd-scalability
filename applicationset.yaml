@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-scalability
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/IBM-edge-platform-research/kyst-configurations.git
+      revision: argocd-scalability
+      directories:
+      - path: argocd-scalability/git-generator-directory/*
+  template:
+    metadata:
+      name: 'argocd-scalability-{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/IBM-edge-platform-research/kyst-configurations.git
+        targetRevision: argocd-scalability
+        path: '{{path}}/deploy/'
+        plugin:
+          name: wrap4kyst
+      destination:
+        server: https://13.56.252.125:6443
+        namespace: argocd-scalability

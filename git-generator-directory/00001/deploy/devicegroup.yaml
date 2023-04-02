@@ -1,0 +1,7 @@
+apiVersion: edge.kyst.kube/v1alpha1
+kind: DeviceGroup
+metadata:
+  # edit the name here
+  name: guestbook-00001
+spec:
+  configSpecName: guestbook-00001

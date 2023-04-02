@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{.Name}}
+  labels:
+    group: use-plugin # change this for each run
+    batch: "0" # changes this for each run
+spec:
+  destination:
+    namespace: argocd-scalability
+    server: https://<destination-server-ip>:6443
+  project: default
+  source:
+    path: kubernetes/guestbook/deploy-scalability/
+    plugin:
+      name: wrap4kyst-scalability # changes this for each run
+    repoURL: https://github.com/edge-experiments/gitops-source.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
