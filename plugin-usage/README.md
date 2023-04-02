@@ -20,7 +20,7 @@ kubectl patch -n argocd configmap argocd-cm --patch-file argocd-plugin/argocd-cm
 
 Create an Argo CD application using the plugin. For example:
 ```shell
-argocd app create kyst-configuration-demo \
+argocd app create first-app \
     --config-management-plugin wrap4kyst \
     --repo https://github.com/edge-experiments/gitops-source.git \
     --path kubernetes/guestbook/deploy \
