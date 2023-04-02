@@ -1,0 +1,22 @@
+data:
+  configManagementPlugins: |
+    - name: wrap4kyst
+      generate:
+        command: ["/bin/bash", "-c"]
+        args: ["wrap4kyst && kustomize build ."]
+    - name: wrap4kyst-scalability
+      generate:
+        command: ["/bin/bash", "-c"]
+        args: ["suffix=$RANDOM$RANDOM && wrap4kyst --configspec-name-suffix=$suffix && cat configspec-$suffix.yaml"]
+    - name: wrap4kyst-scalability-heavily-loaded
+      generate:
+        command: ["/bin/bash", "-c"]
+        args: ["suffix=$RANDOM$RANDOM && wrap4kyst --manifest-dir=../manifests-heavily-loaded/ --configspec-name-suffix=$suffix && cat configspec-$suffix.yaml"]
+    - name: wrap4kyst-ocm
+      generate:
+        command: ["/bin/bash", "-c"]
+        args: ["wrap4kyst --target=ocm && kustomize build ."]
+    - name: wrap4kyst-flotta
+      generate:
+        command: ["/bin/bash", "-c"]
+        args: ["wrap4kyst --target=flotta && kustomize build ."]
