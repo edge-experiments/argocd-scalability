@@ -8,7 +8,7 @@ metadata:
 spec:
   destination:
     namespace: argocd-scalability
-    server: https://<destination-server-ip>:6443
+    server: https://<destination-server-address>:6443
   project: default
   source:
     path: kyst-configspec/indexed/{{.Index}}/

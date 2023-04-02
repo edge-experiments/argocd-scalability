@@ -6,21 +6,22 @@ metadata:
 spec:
   generators:
   - git:
-      repoURL: https://github.com/IBM-edge-platform-research/kyst-configurations.git
-      revision: argocd-scalability
+      repoURL: https://github.com/edge-experiments/argocd-scalability.git
+      revision: main
       directories:
-      - path: argocd-scalability/git-generator-directory/*
+      - path: git-generator-directory/*
   template:
     metadata:
       name: 'argocd-scalability-{{path.basename}}'
+      labels:
+        generator: git
     spec:
       project: default
       source:
-        repoURL: https://github.com/IBM-edge-platform-research/kyst-configurations.git
-        targetRevision: argocd-scalability
+        repoURL: https://github.com/edge-experiments/argocd-scalability.git
         path: '{{path}}/deploy/'
         plugin:
           name: wrap4kyst
       destination:
-        server: https://13.56.252.125:6443
+        server: https://<destination-server-address>:6443
         namespace: argocd-scalability
