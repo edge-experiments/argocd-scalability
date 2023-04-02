@@ -1,0 +1,116 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: devicegroups.edge.kyst.kube
+spec:
+  group: edge.kyst.kube
+  names:
+    kind: DeviceGroup
+    listKind: DeviceGroupList
+    plural: devicegroups
+    singular: devicegroup
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DeviceGroup is the interface object to the workload of an edge
+          device group.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DeviceGroupSpec defines the desired configuration of the
+              devices in the group.
+            properties:
+              configSpecName:
+                type: string
+            required:
+            - configSpecName
+            type: object
+          status:
+            description: DeviceGroupStatus holds the status of the devices in the
+              group.
+            properties:
+              brokenDevices:
+                description: BrokenDevices lists the broken devices, up to a certain
+                  limit.
+                items:
+                  description: BrokenDevice identifies a broken device and a particular
+                    breakage
+                  properties:
+                    reference:
+                      description: Reference holds the namespace/name of the InventoryDevice
+                        object
+                      type: string
+                    when:
+                      description: When is a time that identifies the particular breakage
+                        for the device
+                      format: date-time
+                      type: string
+                  required:
+                  - reference
+                  - when
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - reference
+                x-kubernetes-list-type: map
+              numDevicesInProgress:
+                description: NumDevicesInProgress counts devices that reported recently
+                  enough, reported working on achieving the latest desired config
+                  they had received, and that is the one currently correct for the
+                  group.
+                type: integer
+              numDevicesInSync:
+                description: NumDevicesInSync counts devices that reported recently
+                  enough, reported achieving the latest desired config they had received,
+                  and that is the one currently correct for the group.
+                type: integer
+              numDevicesStuck:
+                description: NumDevicesStuck counts devices that reported recently
+                  enough, reported they do not expect to achieve the latest desired
+                  config they had received, and that is the one currently correct
+                  for the group.
+                type: integer
+              numDevicesUnknown:
+                description: NumDevicesUnknown counts devices that have not reported
+                  recently enough
+                type: integer
+              numDevicesWrongSpec:
+                description: NumDevicesWrongSpec counts devices that reported recently
+                  enough, but did not report receipt of the desired configuration
+                  that is currently correct for the group.
+                type: integer
+            required:
+            - numDevicesInProgress
+            - numDevicesInSync
+            - numDevicesStuck
+            - numDevicesUnknown
+            - numDevicesWrongSpec
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

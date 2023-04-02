@@ -1,0 +1,64 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: configspecs.edge.kyst.kube
+spec:
+  group: edge.kyst.kube
+  names:
+    kind: ConfigSpec
+    listKind: ConfigSpecList
+    plural: configspecs
+    singular: configspec
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ConfigSpec is an API object that carries the desired configuration
+          for an edge device.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ConfigSpecSpec is the desired configuration for an edge device.
+            properties:
+              content:
+                description: Content is the desired configuration or a pattern for
+                  generating it.
+                items:
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              needsCustomization:
+                description: NeedsCustomization is set true when each content string
+                  is a Go template that needs to be executed wrt the InventoryDevice
+                  for the device in question. The Masterminds/sprig/v3 "hermetic"
+                  functions are available as well as those built into text/template;
+                  this is most of what Helm charts do.
+                type: boolean
+            required:
+            - content
+            type: object
+        type: object
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
