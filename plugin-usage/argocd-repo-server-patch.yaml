@@ -6,8 +6,7 @@ spec:
         emptyDir: {}
       initContainers:
       - name: download-tools
-        # replace this with the real image
-        image: dummy-reg/dummy-repo/wrap4kyst:latest
+        image: docker.io/junatibm/wrap4kyst:latest
         command: [sh, -c]
         args:
         - cp /wrap4kyst /custom-tools/
