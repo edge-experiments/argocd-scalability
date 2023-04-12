@@ -2,7 +2,7 @@
 
 `wrap4kyst` is an Argo CD [Config Management Plugin](https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/).
 
-'kyst' is the name of a project that not open sourced.
+'kyst' is the name of a project that not publicly visible.
 But we don't need to worry about this during the experiments. All we need to do know about kyst are three things:
 1. As the name suggests, `wrap4kyst` is just a wrapper that translates Kubernetes native APIs into kyst Custom Resources;
 3. Specifically, the two kinds of kyst Custom Resources used here are `ConfigSpec` and `DeviceGroup`;
